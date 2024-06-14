@@ -25,12 +25,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('SonarQube') { // Assurez-vous que SonarQube est configuré dans Jenkins
+                    withSonarQubeEnv('SonarQube') {
+                        // Utiliser le scanner SonarQube installé via Jenkins
+                        def scannerHome = tool 'SonarQube Scanner'
                         bat """
-                            sonar-scanner -Dsonar.projectKey=app_web_aws ^
-                                           -Dsonar.sources=. ^
-                                           -Dsonar.host.url=http://localhost:9000 ^
-                                           -Dsonar.login=sqp_04291615156b6d9a8778ef8d3241f2754e2f7114
+                            ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=app_web_aws ^
+                                                              -Dsonar.sources=. ^
+                                                              -Dsonar.host.url=http://localhost:9000 ^
+                                                              -Dsonar.login=sqp_04291615156b6d9a8778ef8d3241f2754e2f7114
                         """
                     }
                 }
@@ -46,6 +48,7 @@ pipeline {
         }
     }
 }
+
 
 
 
