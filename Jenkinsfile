@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Terraform') {
             steps {
-                dir('terraform') {
+                dir('Terraform') {
                     script {
                         // Lancement de Terraform
                         bat 'terraform --version'
