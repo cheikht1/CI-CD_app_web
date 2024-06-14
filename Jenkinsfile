@@ -22,6 +22,21 @@ pipeline {
                 }
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') { // Assurez-vous que SonarQube est configuré dans Jenkins
+                        bat """
+                            sonar-scanner \\
+                            -Dsonar.projectKey=app_web_aws \\
+                            -Dsonar.sources=. \\
+                            -Dsonar.host.url=http://localhost:9000 \\
+                            -Dsonar.token=sqp_04291615156b6d9a8778ef8d3241f2754e2f7114
+                        """
+                    }
+                }
+            }
+        }
     }
     post {
         success {
@@ -32,7 +47,6 @@ pipeline {
         }
     }
 }
-
 
 
 
