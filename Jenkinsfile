@@ -25,14 +25,18 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
+                    // Définir l'emplacement de l'outil sonar-scanner
+                    def scannerHome = tool 'SonarQube Scanner'
                     withSonarQubeEnv('SonarQube') {
-                        // Utiliser le scanner SonarQube installé via Jenkins
-                        def scannerHome = tool 'SonarQube Scanner'
+                        // Utiliser les commandes batch pour Windows
                         bat """
-                            ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=app_web_aws ^
-                                                              -Dsonar.sources=. ^
-                                                              -Dsonar.host.url=http://localhost:9000 ^
-                                                              -Dsonar.login=sqp_04291615156b6d9a8778ef8d3241f2754e2f7114
+                            ${scannerHome}\\bin\\sonar-scanner ^
+                            -Dsonar.projectKey=app_web_aws ^
+                            -Dsonar.projectName="app_web_aws" ^
+                            -Dsonar.projectVersion=1.0 ^
+                            -Dsonar.sources=. ^
+                            -Dsonar.host.url=http://localhost:9000 ^
+                            -Dsonar.login=sqp_04291615156b6d9a8778ef8d3241f2754e2f7114
                         """
                     }
                 }
