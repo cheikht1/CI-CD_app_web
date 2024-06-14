@@ -31,4 +31,4 @@ Le projet comprend également un mini site web dynamique, développé pour démo
 
 ## Utilisation de Windows à Ubuntu
 
-Initialement, le projet a débuté en mettant en avant le système Windows pour le développement. Cependant, à partir de Terraform, j'ai basculé vers Ubuntu, ce qui a été reflété dans la gestion du code avec la création d'une branche dédiée "ubuntubranch".
+Initialement, le projet a débuté en mettant en avant le système Windows pour le développement. Cependant, à partir de Terraform, j'ai basculé vers Ubuntu, ce qui a été reflété dans la gestion du code avec la création d'une branche.
