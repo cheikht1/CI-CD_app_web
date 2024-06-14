@@ -22,7 +22,7 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') { // Assurez-vous que SonarQube est configuré dans Jenkins
