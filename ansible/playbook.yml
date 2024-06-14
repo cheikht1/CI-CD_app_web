@@ -1,0 +1,37 @@
+---
+- name: Deploy applications to Kubernetes
+  hosts: localhost
+  tasks:
+    - name: Ensure kubeconfig is available
+      stat:
+        path: "/home/cheikh/.kube/config"
+      register: kubeconfig_file
+
+    - name: Fail if kubeconfig is not found
+      fail:
+        msg: "Kubeconfig file not found at /home/cheikh/.kube/config"
+      when: not kubeconfig_file.stat.exists
+
+    - name: Deploy Apache application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../kubernetes/web_deploy.yml') }}"
+        kubeconfig: "/home/cheikh/.kube/config"
+
+    - name: Deploy MySQL application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../kubernetes/db_deploy.yml') }}"
+        kubeconfig: "/home/cheikh/.kube/config"
+
+    - name: Create service for Apache application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../kubernetes/web_services.yml') }}"
+        kubeconfig: "/home/cheikh/.kube/config"
+
+    - name: Create service for MySQL application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../kubernetes/db_services.yml') }}"
+        kubeconfig: "/home/cheikh/.kube/config"

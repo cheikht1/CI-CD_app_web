@@ -1,0 +1,103 @@
+# # apiVersion: apps/v1
+# # kind: Deployment
+# # metadata:
+# #   name: db-base
+# # spec:
+# #   replicas: 1
+# #   selector:
+# #     matchLabels:
+# #       app: db
+# #   template:
+# #     metadata:
+# #       labels:
+# #         app: db
+# #     spec:
+# #       containers:
+# #         - name: mysql
+# #           image: cheikht/mysql_ct
+# #           env:
+# #             - name: MYSQL_ROOT_PASSWORD
+# #               value: root
+# #             - name: MYSQL_DATABASE
+# #               value: fil_rouge
+# #             - name: DATABASE_USER
+# #               value: root
+# #             - name: DATABASE_HOST
+# #               value: db
+# #           ports:
+# #             - containerPort: 3306
+# #           resources:
+# #             limits:
+# #               cpu: "0.5"
+# #               memory: "512Mi"
+# #             requests:
+# #               cpu: "0.1"
+# #               memory: "256Mi"
+# ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: db
+# # spec:
+# #   selector:
+# #     app: db
+# #   ports:
+# #     - protocol: TCP
+# #       port: 3306
+# #       targetPort: 3306
+# #       nodePort: 31100
+# #   type: NodePort # Type de service
+# ---
+# # apiVersion: apps/v1
+# # kind: Deployment
+# # metadata:
+# #   name: app-base
+# # spec:
+# #   replicas: 2
+# #   selector:
+# #     matchLabels:
+# #       app: app
+# #   template:
+# #     metadata:
+# #       labels:
+# #         app: app
+# #     spec:
+# #       containers:
+# #         - name: php-apache
+# #           image: cheikht/apache_ct
+# #           ports:
+# #             - containerPort: 80
+# #           env:
+# #             - name: DATABASE_HOST
+# #               value: db
+# #             - name: DATABASE_USER
+# #               value: root
+# #             - name: DATABASE_PASSWORD
+# #               value: root
+# #             - name: DATABASE_NAME
+# #               value: fil_rouge
+# #           resources:
+# #             limits:
+# #               cpu: "0.5"
+# #               memory: "512Mi"
+# #             requests:
+# #               cpu: "0.1"
+# #               memory: "256Mi"
+# #       volumes:
+# #         - name: app-volume
+# #           emptyDir: {}
+# ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: app-service
+# # spec:
+# #   selector:
+# #     app: app
+# #   ports:
+# #     - name: http
+# #       protocol: TCP
+# #       port: 80
+# #       nodePort: 30101 # Port NodePort
+# #       targetPort: 80
+# #   type: NodePort # Type de service

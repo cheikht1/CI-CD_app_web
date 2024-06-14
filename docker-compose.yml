@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  php:
+    build: 
+      context: .
+      dockerfile: Web.Dockerfile
+    ports:
+      - "8585:80"
+    depends_on:
+      - db
+    networks:
+      - monitoring
+
+  db:
+    build:  
+      context: .
+      dockerfile: Db.Dockerfile
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - monitoring
+
+volumes:
+  mysql_data:
+
+networks:
+  monitoring:
+    external: true

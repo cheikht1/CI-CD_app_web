@@ -1,0 +1,17 @@
+# User 'logstash_internal' (custom)
+#
+# The user Logstash uses to connect and send data to Elasticsearch.
+# https://www.elastic.co/guide/en/logstash/current/ls-security.html
+
+
+---
+## Default Logstash configuration from Logstash base image.
+## https://github.com/elastic/logstash/blob/main/docker/data/logstash/config/logstash-full.yml
+
+http.host: 0.0.0.0
+
+node.name: logstash
+
+# Configuration des informations d'identification Elasticsearch
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["http://elastic:changeme@elasticsearch:9200"]
