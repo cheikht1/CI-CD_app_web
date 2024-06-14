@@ -8,20 +8,20 @@ pipeline {
         DOCKER_TAG2 = "latest"
     }
     stages {
-        stage('Terraform') {
-            steps {
-                dir('Terraform') {
-                    script {
-                        // Lancement de Terraform
-                        bat 'terraform --version'
-                        bat 'terraform init'
-                        bat 'terraform plan'
-                        bat 'terraform apply --auto-approve'
-                        // bat 'terraform destroy --auto-approve'
-                    }
-                }
-            }
-        }
+        // stage('Terraform') {
+        //     steps {
+        //         dir('Terraform') {
+        //             script {
+        //                 // Lancement de Terraform
+        //                 bat 'terraform --version'
+        //                 bat 'terraform init'
+        //                 bat 'terraform plan'
+        //                 bat 'terraform apply --auto-approve'
+        //                 // bat 'terraform destroy --auto-approve'
+        //             }
+        //         }
+        //     }
+        // }
         stage('SonarQube Analysis') {
             steps {
                 script {
